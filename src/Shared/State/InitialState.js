@@ -1,5 +1,19 @@
 const InitialState = {
-//TODO Initial states for components
+    projectBoardsState: [
+        {
+            boardName: "",
+            lists: [
+                {
+                    listName: "",
+                    cards: [
+                        {
+                            cardName: ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 };
 
 export default InitialState;
