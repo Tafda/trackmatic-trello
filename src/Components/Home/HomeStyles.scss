@@ -4,9 +4,29 @@
     }
     .boardCard {
         width: 500px;
+        cursor: pointer;
+    }
+    .createCard{
+        width: 500px;
+        height: fit-content;;
+        .header{
+            cursor: pointer;
+        }
     }
     .title{
         margin-top: 10px;
         margin-bottom: 10px;
+    }
+    .btnCreate {
+        margin-top: 10px; 
+        background-color: #5aac44;
+        color: #ffffff;
+        &:hover {
+            background-color: #5aac44;
+        }
+    }
+    .disabled{
+        pointer-events: auto !important;
+        cursor: not-allowed !important;
     }
 }

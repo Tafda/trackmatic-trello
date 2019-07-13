@@ -5,9 +5,7 @@ const HomeReducer = (state = InitialState.projectBoardsState, action) => {
     switch (action.type) {
         case Types.CREATE_BOARD:
             return {
-                boards:{
-                     ...action.payload
-                }
+                boards: action.payload
             };
         default: {
             return state;

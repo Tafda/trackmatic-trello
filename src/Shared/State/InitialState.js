@@ -1,20 +1,6 @@
 const InitialState = {
     projectBoardsState: {
-        boards: [
-            {
-                boardName: "",
-                lists: [
-                    {
-                        listName: "",
-                        cards: [
-                            {
-                                cardName: ""
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
+        boards: [ ]
     }
 };
 
