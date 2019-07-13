@@ -14,7 +14,7 @@ import {
     Button
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-
+import * as Utils from '../../Shared/Utilty';
 
 class Home extends Component {
     constructor(props) {
@@ -27,20 +27,82 @@ class Home extends Component {
         this.updateBoards = this.updateBoards.bind(this);
         this.openCreateCard = this.openCreateCard.bind(this);
         this.updateNewCardName = this.updateNewCardName.bind(this);
+        this.viewBoard = this.viewBoard.bind(this);
     }
 
     updateBoards() {
-        const newBaords = [
+        const newBoards = [
             ...this.props.boards,
             {
                 boardName: this.state.newBoardsName,
+                active: false,
                 lists: [
                     {
-                        listName: "",
+                        name: "hey",
                         cards: [
                             {
-                                cardName: ""
-                            }
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                        ]
+                    },
+                    {
+                        name: "hey",
+                        cards: [
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                        ]
+                    },
+                    {
+                        name: "hey",
+                        cards: [
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                        ]
+                    },
+                    {
+                        name: "hey",
+                        cards: [
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
+                            {
+                                name: "jack",
+                            },
                         ]
                     }
                 ]
@@ -50,7 +112,7 @@ class Home extends Component {
             newBoardsName: "",
             createDisabled: true
         });
-        this.props.UpdateBoards(newBaords);
+        this.props.UpdateBoards(newBoards);
     }
 
     openCreateCard() {
@@ -62,7 +124,7 @@ class Home extends Component {
         this.setState({
             newBoardsName: event.target.value
         });
-        if (event.target.value === "") {
+        if (Utils.isNullOrEmpty(event.target.value)) {
             this.setState({
                 createDisabled: true
             });
@@ -71,6 +133,9 @@ class Home extends Component {
                 createDisabled: false
             });
         }
+    }
+    viewBoard(index) {
+        this.props.history.push(`/board/${index}`);
     }
 
     render() {
@@ -106,7 +171,9 @@ class Home extends Component {
                                     xs={4}
                                     justify="flex-start"
                                     className="cardContainer">
-                                    <Card className="boardCard">
+                                    <Card
+                                        onClick={() => this.viewBoard(index)}
+                                        className="boardCard">
                                         <CardContent>
                                             <Typography variant="h5" component="h2" color="textSecondary" >
                                                 {board.boardName}
@@ -170,7 +237,8 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-    boards: PropTypes.array.isRequired
+    boards: PropTypes.array.isRequired,
+    history: PropTypes.object.isRequired,
 }
 const mapStateToProps = (state) => ({
     boards: state.projectBoardsState.boards

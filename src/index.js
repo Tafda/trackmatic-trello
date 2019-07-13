@@ -5,9 +5,15 @@ import App from './Components/App/App';
 import * as serviceWorker from './Shared/serviceWorker';
 import { createAppState } from './Shared/State/AppState';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
+const stateObject = createAppState();
 ReactDOM.render(
-    <Provider store={createAppState()}> <App /> </Provider>,
+    <Provider store={stateObject.store}>
+        <PersistGate loading={null} persistor={stateObject.storePersistor}>
+            <App />
+        </PersistGate>
+    </Provider>,
     document.getElementById('root')
 );
 
