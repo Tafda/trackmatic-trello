@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { isNullOrEmpty } from '../../Shared/Utilty';
+import NavBar from '../NavBar/NavBar';
 
 class Board extends Component {
     constructor(props) {
@@ -136,6 +137,7 @@ class Board extends Component {
                 container
                 direction="column"
                 alignItems="center">
+                <NavBar />
                 <Grid
                     container
                     item
@@ -150,7 +152,7 @@ class Board extends Component {
                         board.lists.map((list, index) => {
                             return (
                                 <div className="listCard" key={index}>
-                                    <Card >
+                                    <Card className="transparent">
                                         <CardContent>
                                             <Typography>
                                                 {list.name}

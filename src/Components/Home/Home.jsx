@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { isNullOrEmpty } from '../../Shared/Utilty';
+import NavBar from '../NavBar/NavBar';
 
 class Home extends Component {
     constructor(props) {
@@ -72,6 +73,7 @@ class Home extends Component {
                 container
                 direction="column"
                 alignItems="center">
+                <NavBar />
                 <Grid
                     container
                     item
