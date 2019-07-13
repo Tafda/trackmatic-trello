@@ -1,15 +1,17 @@
 .homeStyle {
+    @mixin card{
+        width: 500px;
+        height: fit-content;
+    }
     .cardContainer {
         padding: 10px;
     }
     .boardCard {
-        width: 500px;
-        height: fit-content;
+        @include card();
         cursor: pointer;
     }
     .createCard{
-        width: 500px;
-        height: fit-content;
+        @include card();
         .header{
             cursor: pointer;
         }
@@ -25,9 +27,5 @@
         &:hover {
             background-color: #5aac44;
         }
-    }
-    .disabled{
-        pointer-events: auto !important;
-        cursor: not-allowed !important;
     }
 }

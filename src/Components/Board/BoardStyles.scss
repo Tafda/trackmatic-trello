@@ -1,5 +1,39 @@
 .boardStyle{
-    .listCard{
+    .title {
+        margin: 24px;
+    }
+    .listWrapper{
+        position: relative;
+        flex-grow: 1;
+    }
+    .listContainer {
+        overflow-x: auto ;
+        overflow-y: hidden ;
+        white-space: nowrap ;
+        width: 100%;
+        height: 100%;
+        padding-bottom: 10px
+    }
+    @mixin list-card {
         width: 272px;
+        margin-left: 6px;
+        margin-right: 6px;
+        display: inline-block ;
+        vertical-align: top;
+    }
+    .listCard{
+        @include list-card();
+        &:first-child {
+            margin-left: 24px;
+        }
+    }
+    .addListCard{
+        @include list-card();
+        &:last-child {
+            margin-right: 12px;
+        }
+    }
+    .cardItem {
+
     }
 }

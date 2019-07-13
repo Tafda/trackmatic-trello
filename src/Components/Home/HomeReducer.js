@@ -3,7 +3,7 @@ import InitialState from '../../Shared/State/InitialState';
 
 const HomeReducer = (state = InitialState.projectBoardsState, action) => {
     switch (action.type) {
-        case Types.CREATE_BOARD:
+        case Types.UPDATE_BOARD:
             return {
                 boards: action.payload
             };

@@ -1,1 +1,1 @@
-export const CREATE_BOARD = "[HOME] CREATE BOARD";
+export const UPDATE_BOARD = "[HOME] UPDATE BOARDS";

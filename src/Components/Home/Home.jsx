@@ -14,7 +14,7 @@ import {
     Button
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import * as Utils from '../../Shared/Utilty';
+import { isNullOrEmpty } from '../../Shared/Utilty';
 
 class Home extends Component {
     constructor(props) {
@@ -124,7 +124,7 @@ class Home extends Component {
         this.setState({
             newBoardsName: event.target.value
         });
-        if (Utils.isNullOrEmpty(event.target.value)) {
+        if (isNullOrEmpty(event.target.value)) {
             this.setState({
                 createDisabled: true
             });

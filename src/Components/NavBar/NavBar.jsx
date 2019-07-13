@@ -1,32 +1,38 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import {
     AppBar,
+    Button,
     Toolbar,
-    Typography,
-    Button, 
-    IconButton
+    Typography
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 
 class NavBar extends Component {
+    constructor(props) {
+        super(props)
+        this.goHome = this.goHome.bind(this);
+    }
+
+    goHome() {
+        this.props.history.push(`/`);
+    }
 
     render() {
         return (
-            <div>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" className={"classes.menuButton"} color="inherit" aria-label="Menu">
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" className={"classes.title"}>
-                            News
+            <AppBar position="static">
+                <Toolbar>
+                    <Button onClick={this.goHome}>
+                        <Typography style={{ color: 'white' }} variant="h6">
+                            Home (Boards)
                         </Typography>
-                        <Button color="inherit">Login</Button>
-                    </Toolbar>
-                </AppBar>
-            </div>
+                    </Button>
+                </Toolbar>
+            </AppBar>
         );
     }
 }
-
-export default NavBar;
+NavBar.propTypes = {
+    history: PropTypes.object.isRequired,
+}
+export default withRouter(NavBar);
