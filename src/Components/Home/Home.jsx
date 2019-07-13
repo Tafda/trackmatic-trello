@@ -75,7 +75,7 @@ class Home extends Component {
 
     render() {
         const { open, createDisabled, newBoardsName } = this.state;
-        const { } = this.props;
+        const { boards } = this.props;
         return (
             <Grid
                 className="homeStyle"
@@ -97,7 +97,7 @@ class Home extends Component {
                     xs={10}
                     justify="flex-start">
                     {
-                        this.props.boards.map((board, index) => {
+                        boards.map((board, index) => {
                             return (
                                 <Grid
                                     key={index}
@@ -108,7 +108,7 @@ class Home extends Component {
                                     className="cardContainer">
                                     <Card className="boardCard">
                                         <CardContent>
-                                            <Typography className={"classes.title"} color="textSecondary" gutterBottom>
+                                            <Typography variant="h5" component="h2" color="textSecondary" >
                                                 {board.boardName}
                                             </Typography>
                                         </CardContent>

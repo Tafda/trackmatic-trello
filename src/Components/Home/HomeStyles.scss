@@ -4,11 +4,12 @@
     }
     .boardCard {
         width: 500px;
+        height: fit-content;
         cursor: pointer;
     }
     .createCard{
         width: 500px;
-        height: fit-content;;
+        height: fit-content;
         .header{
             cursor: pointer;
         }
