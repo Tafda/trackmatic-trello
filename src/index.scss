@@ -12,8 +12,19 @@ code {
     monospace;
 }
 
-
+.btnCreate {
+    margin-top: 20px !important; 
+    background-color: #5aac44 !important;
+    color: #ffffff !important;
+    &:hover {
+        background-color: #5aac44 !important;
+    }
+}
 .disabled{
     pointer-events: auto !important;
     cursor: not-allowed !important;
 }
+.pointer{
+  cursor: pointer;
+}
+

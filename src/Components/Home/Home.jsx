@@ -35,77 +35,7 @@ class Home extends Component {
             ...this.props.boards,
             {
                 boardName: this.state.newBoardsName,
-                active: false,
-                lists: [
-                    {
-                        name: "hey",
-                        cards: [
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                        ]
-                    },
-                    {
-                        name: "hey",
-                        cards: [
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                        ]
-                    },
-                    {
-                        name: "hey",
-                        cards: [
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                        ]
-                    },
-                    {
-                        name: "hey",
-                        cards: [
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                            {
-                                name: "jack",
-                            },
-                        ]
-                    }
-                ]
+                lists: [ ]
             }
         ];
         this.setState({
@@ -124,15 +54,10 @@ class Home extends Component {
         this.setState({
             newBoardsName: event.target.value
         });
-        if (isNullOrEmpty(event.target.value)) {
-            this.setState({
-                createDisabled: true
-            });
-        } else {
-            this.setState({
-                createDisabled: false
-            });
-        }
+        const empty = isNullOrEmpty(event.target.value);
+        this.setState({
+            createDisabled: empty
+        })
     }
     viewBoard(index) {
         this.props.history.push(`/board/${index}`);
@@ -220,7 +145,7 @@ class Home extends Component {
                                             onClick={this.updateBoards}
                                             className={
                                                 createDisabled
-                                                    ? "btnCreate disabled"
+                                                    ? "disabled"
                                                     : "btnCreate"
                                             }>
                                             Create Board

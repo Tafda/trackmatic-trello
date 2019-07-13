@@ -33,7 +33,28 @@
             margin-right: 12px;
         }
     }
-    .cardItem {
-
+    @mixin hover {
+        &:hover{
+            background-color: rgba(9,30,66,.13);
+            color: #172b4d;
+            text-decoration: underline;
+        }
+    }
+    .newListHeader{
+        @include hover();
+    }
+    .listFooter {
+        padding-bottom: 12px !important;
+        @include hover();
+    }
+    .cardItem{
+        margin-bottom: 12px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        &>div:first-child {
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
     }
 }

@@ -15,7 +15,7 @@ import {
     Button
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import * as Utils from '../../Shared/Utilty';
+import { isNullOrEmpty } from '../../Shared/Utilty';
 
 class Board extends Component {
     constructor(props) {
@@ -27,13 +27,80 @@ class Board extends Component {
             newList: false,
             newListName: "",
             createListDisabled: true,
+            newCardName: "",
+            createCardDisabled: true,
+            newCardListIndex: null,
+            creatingCard: false
         }
-        this.updateBoards = this.updateBoards.bind(this);
+        this.createList = this.createList.bind(this);
         this.toggleNewList = this.toggleNewList.bind(this);
+        this.updateNewListName = this.updateNewListName.bind(this);
+        this.updateBoards = this.updateBoards.bind(this);
+        this.updateNewCardName = this.updateNewCardName.bind(this);
+        this.toggleAddCard = this.toggleAddCard.bind(this);
+        this.addCard = this.addCard.bind(this);
     }
 
+    createList() {
+        const newBoard = this.state.board;
+        newBoard.lists = [
+            ...newBoard.lists,
+            {
+                name: this.state.newListName,
+                cards: []
+            }
+        ];
+        this.setState({
+            board: newBoard,
+            newListName: "",
+            createListDisabled: true,
+        })
+        this.updateBoards();
+    }
+    addCard() {
+        const listIndex = this.state.newCardListIndex;
+        const list = this.state.board.lists[listIndex];
+        var newCardsList = list.cards;
+        newCardsList = [
+            ...newCardsList,
+            { name: this.state.newCardName }
+        ];
+        var lists = this.state.board.lists;
+        lists[listIndex].cards = newCardsList;
+        this.setState({
+            board: {
+                ...this.state.board,
+                lists
+            },
+        });
+        this.updateBoards();
+    }
+    toggleAddCard(listIndex) {
+        this.setState({
+            newCardListIndex: listIndex,
+            creatingCard: !this.state.creatingCard
+        })
+    }
+    updateNewCardName(event) {
+        this.setState({
+            newCardName: event.target.value
+        });
+        const empty = isNullOrEmpty(event.target.value);
+        this.setState({
+            createCardDisabled: empty
+        });
+    }
     updateBoards() {
         const newBoards = this.props.boards;
+        this.setState({
+                newList: false,
+                newListName: "",
+                createListDisabled: true,
+                newCardName: "",
+                createCardDisabled: true,
+                newCardListIndex: null,
+                creatingCard: false
+        });
         newBoards[this.state.index] = this.state.board;
         this.props.UpdateBoards(newBoards);
     }
@@ -42,9 +109,27 @@ class Board extends Component {
             newList: !this.state.newList
         })
     }
+    updateNewListName(event) {
+        this.setState({
+            newListName: event.target.value
+        });
+        const empty = isNullOrEmpty(event.target.value);
+        this.setState({
+            createListDisabled: empty
+        });
+    }
 
     render() {
-        const { board, newList, newListName, createListDisabled } = this.state;
+        const {
+            board,
+            newList,
+            newListName,
+            createListDisabled,
+            newCardName,
+            createCardDisabled,
+            newCardListIndex,
+            creatingCard
+        } = this.state;
         return (
             <Grid
                 className="boardStyle"
@@ -76,9 +161,10 @@ class Board extends Component {
                                                 list.cards.map((card, index) => {
                                                     return (
                                                         <Card
+                                                            className="cardItem"
                                                             key={index}>
                                                             <CardContent>
-                                                                <Typography variant="h5" color="textSecondary" >
+                                                                <Typography color="textSecondary" >
                                                                     {card.name}
                                                                 </Typography>
                                                             </CardContent>
@@ -87,9 +173,48 @@ class Board extends Component {
                                                 })
                                             }
                                         </CardContent>
-                                        <CardContent>
-                                            <Button>Add Card</Button>
-                                        </CardContent>
+                                        
+                                            {
+                                                (creatingCard && (index === newCardListIndex))
+                                                ?
+                                                <CardContent>
+                                                    <Grid
+                                                        container
+                                                        direction="column"
+                                                        alignItems="flex-start">
+                                                        <TextField
+                                                            placeholder="Enter Card Title"
+                                                            fullWidth
+                                                            variant="outlined"
+                                                            onChange={this.updateNewCardName}
+                                                            value={newCardName}
+                                                        />
+                                                        <Button
+                                                            disabled={createCardDisabled}
+                                                            onClick={this.addCard}
+                                                            className={
+                                                                createCardDisabled
+                                                                    ? "disabled"
+                                                                    : "btnCreate"
+                                                            }>
+                                                            Add Card
+                                                        </Button>
+                                                    </Grid>
+                                                </CardContent>
+                                                :
+                                                <CardContent
+                                                    className="listFooter pointer">
+                                                    <Grid
+                                                        onClick={() => this.toggleAddCard(index)}
+                                                        container
+                                                        alignItems="center">
+                                                        <AddIcon fontSize="small" /> Add Card
+                                                    </Grid>
+                                                </CardContent>
+                                            }
+                                            
+                                       
+                                        
                                     </Card>
                                 </div>
                             );
@@ -97,6 +222,7 @@ class Board extends Component {
                     }
                     <Card className="addListCard">
                         <CardHeader
+                            className="pointer newListHeader"
                             onClick={this.toggleNewList}
                             avatar={<AddIcon />}
                             title="Add New List"
@@ -108,23 +234,22 @@ class Board extends Component {
                                     direction="column"
                                     alignItems="flex-start">
                                     <TextField
-                                        placeholder="Enter Board Title"
+                                        placeholder="Enter List Title"
                                         fullWidth
-                                        margin="normal"
                                         variant="outlined"
-                                        onChange={this.updateNewCardName}
+                                        onChange={this.updateNewListName}
                                         value={newListName}
                                     />
                                     <Button
                                         disabled={createListDisabled}
-                                        onClick={this.updateBoards}
+                                        onClick={this.createList}
                                         className={
                                             createListDisabled
-                                                ? "btnCreate disabled"
+                                                ? "disabled"
                                                 : "btnCreate"
                                         }>
-                                        Create Board
-                                        </Button>
+                                        Create List
+                                    </Button>
                                 </Grid>
                             </CardContent>
                         </Collapse>
