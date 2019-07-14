@@ -15,11 +15,12 @@ import {
     Button,
     Dialog,
     DialogTitle,
-    DialogContent
+    DialogContent,
 } from '@material-ui/core';
 import { Add, Edit } from '@material-ui/icons';
 import { isNullOrEmpty } from '../../Shared/Utilty';
 import NavBar from '../NavBar/NavBar';
+import EditCardModal from '../EditCardModal/EditCardModal';
 
 class Board extends Component {
     constructor(props) {
@@ -158,6 +159,7 @@ class Board extends Component {
             board: updatedBoard
         });
         this.updateBoards();
+        this.toggleEditCard(null, null, false)
     }
 
     render() {
@@ -174,43 +176,7 @@ class Board extends Component {
             editCardName,
             editCardDisabled
         } = this.state;
-        
 
-        const MODAL = <Dialog
-            onClose={() => this.toggleEditCard(null, null, false)}
-            aria-labelledby="simple-dialog-title" 
-            open={editingCard} >
-            <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
-            <DialogContent>
-                <TextField
-                    fullWidth
-                    value={editCardName}
-                    onChange={this.updatePrevCard}
-                />
-                <Button
-                    disabled={editCardDisabled}
-                    onClick={this.saveCardChanges}
-                    className={
-                        editCardDisabled
-                            ? "disabled"
-                            : "btnCreate"
-                    }
-                >
-                    Save Card Changes
-                </Button>
-            </DialogContent>
-        </Dialog>;
-
-
-        /*
-        <Modal
-            open={}
-            onClose={}
-        >
-            
-        </Modal>
-
-*/
         return (
             <Grid
                 className="boardStyle"
@@ -218,7 +184,14 @@ class Board extends Component {
                 direction="column"
                 alignItems="center">
                 <NavBar />
-                {MODAL}
+                <EditCardModal
+                    isOpen={editingCard}
+                    editCardName={editCardName}
+                    canSave={editCardDisabled}
+                    saveCardChanges={this.saveCardChanges}
+                    updateCardValue={this.updatePrevCard}
+                    toggleEditCard={this.toggleEditCard}
+                />
                 <Grid
                     className="header"
                     container
@@ -247,14 +220,6 @@ class Board extends Component {
                                                         <Card
                                                             className="cardItem"
                                                             key={_cardIndex}>
-                                                            {/*
-                                                                (editingCard && (editCardListIndex === index) && (cardIndex === _cardIndex))
-                                                                ?
-                                                                    <CardContent>
-                                                                        
-                                                                </CardContent>
-                                                                :*/
-                                                            }
                                                             <CardContent>
                                                                 <Grid
                                                                     container

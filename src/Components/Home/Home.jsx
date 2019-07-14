@@ -48,7 +48,7 @@ class Home extends Component {
 
     openCreateCard() {
         this.setState({
-            open:  !this.state.open
+            open: !this.state.open
         });
     }
     updateNewCardName(event) {

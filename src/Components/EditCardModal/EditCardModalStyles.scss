@@ -1,0 +1,12 @@
+
+    .editCardModal {
+        &>div:first-child {
+            background-color: pink;
+        }
+        &div:nth-child(3n){
+            background-color: #dfe1e6;
+            &>div:first-child{
+                background-color: #dfe1e6;
+            }
+        }
+    }
