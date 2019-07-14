@@ -139,6 +139,7 @@ class Board extends Component {
                 alignItems="center">
                 <NavBar />
                 <Grid
+                    className="header"
                     container
                     item
                     xs={12}
@@ -158,7 +159,7 @@ class Board extends Component {
                                                 {list.name}
                                             </Typography>
                                         </CardContent>
-                                        <CardContent>
+                                        <CardContent >
                                             {
                                                 list.cards.map((card, index) => {
                                                     return (
@@ -175,48 +176,44 @@ class Board extends Component {
                                                 })
                                             }
                                         </CardContent>
-                                        
-                                            {
-                                                (creatingCard && (index === newCardListIndex))
-                                                ?
-                                                <CardContent>
-                                                    <Grid
-                                                        container
-                                                        direction="column"
-                                                        alignItems="flex-start">
-                                                        <TextField
-                                                            placeholder="Enter Card Title"
-                                                            fullWidth
-                                                            variant="outlined"
-                                                            onChange={this.updateNewCardName}
-                                                            value={newCardName}
-                                                        />
-                                                        <Button
-                                                            disabled={createCardDisabled}
-                                                            onClick={this.addCard}
-                                                            className={
-                                                                createCardDisabled
-                                                                    ? "disabled"
-                                                                    : "btnCreate"
-                                                            }>
-                                                            Add Card
-                                                        </Button>
-                                                    </Grid>
-                                                </CardContent>
-                                                :
-                                                <CardContent
-                                                    className="listFooter pointer">
-                                                    <Grid
-                                                        onClick={() => this.toggleAddCard(index)}
-                                                        container
-                                                        alignItems="center">
-                                                        <AddIcon fontSize="small" /> Add Card
-                                                    </Grid>
-                                                </CardContent>
-                                            }
-                                            
-                                       
-                                        
+                                        {
+                                            (creatingCard && (index === newCardListIndex))
+                                            ?
+                                            <CardContent>
+                                                <Grid
+                                                    container
+                                                    direction="column"
+                                                    alignItems="flex-start">
+                                                    <TextField
+                                                        placeholder="Enter Card Title"
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        onChange={this.updateNewCardName}
+                                                        value={newCardName}
+                                                    />
+                                                    <Button
+                                                        disabled={createCardDisabled}
+                                                        onClick={this.addCard}
+                                                        className={
+                                                            createCardDisabled
+                                                                ? "disabled"
+                                                                : "btnCreate"
+                                                        }>
+                                                        Add Card
+                                                    </Button>
+                                                </Grid>
+                                            </CardContent>
+                                            :
+                                            <CardContent
+                                                className="listFooter pointer">
+                                                <Grid
+                                                    onClick={() => this.toggleAddCard(index)}
+                                                    container
+                                                    alignItems="center">
+                                                    <AddIcon fontSize="small" /> Add Card
+                                                </Grid>
+                                            </CardContent>
+                                        }
                                     </Card>
                                 </div>
                             );
