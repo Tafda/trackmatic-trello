@@ -12,9 +12,12 @@ import {
     Typography,
     Collapse,
     TextField,
-    Button
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { Add, Edit } from '@material-ui/icons';
 import { isNullOrEmpty } from '../../Shared/Utilty';
 import NavBar from '../NavBar/NavBar';
 
@@ -22,6 +25,7 @@ class Board extends Component {
     constructor(props) {
         super(props);
         const INDEX = this.props.match.params.index;
+
         this.state = {
             index: INDEX,
             board: props.boards[INDEX],
@@ -31,8 +35,14 @@ class Board extends Component {
             newCardName: "",
             createCardDisabled: true,
             newCardListIndex: null,
-            creatingCard: false
+            creatingCard: false,
+            editingCard: false,
+            cardIndex: null,
+            editCardListIndex: null,
+            editCardName: "",
+            editCardDisabled: true
         }
+
         this.createList = this.createList.bind(this);
         this.toggleNewList = this.toggleNewList.bind(this);
         this.updateNewListName = this.updateNewListName.bind(this);
@@ -40,6 +50,8 @@ class Board extends Component {
         this.updateNewCardName = this.updateNewCardName.bind(this);
         this.toggleAddCard = this.toggleAddCard.bind(this);
         this.addCard = this.addCard.bind(this);
+        this.updatePrevCard = this.updatePrevCard.bind(this);
+        this.saveCardChanges = this.saveCardChanges.bind(this);
     }
 
     createList() {
@@ -119,6 +131,34 @@ class Board extends Component {
             createListDisabled: empty
         });
     }
+    toggleEditCard(listIndex, cardIndex, editing) {
+        const name = editing ? this.state.board.lists[listIndex].cards[cardIndex].name : "";
+        this.setState({
+            editCardListIndex: listIndex,
+            editingCard: editing,
+            cardIndex: cardIndex,
+            editCardName: name 
+        })
+    }
+    updatePrevCard(event) {
+        this.setState({
+            editCardName: event.target.value
+        });
+        const empty = isNullOrEmpty(event.target.value);
+        this.setState({
+            editCardDisabled: empty
+        });
+    }
+
+    saveCardChanges() {
+        const { cardIndex, editCardListIndex } = this.state;
+        const updatedBoard = this.state.board;
+        updatedBoard.lists[editCardListIndex].cards[cardIndex].name = this.state.editCardName;
+        this.setState({
+            board: updatedBoard
+        });
+        this.updateBoards();
+    }
 
     render() {
         const {
@@ -129,8 +169,48 @@ class Board extends Component {
             newCardName,
             createCardDisabled,
             newCardListIndex,
-            creatingCard
+            creatingCard,
+            editingCard,
+            editCardName,
+            editCardDisabled
         } = this.state;
+        
+
+        const MODAL = <Dialog
+            onClose={() => this.toggleEditCard(null, null, false)}
+            aria-labelledby="simple-dialog-title" 
+            open={editingCard} >
+            <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+            <DialogContent>
+                <TextField
+                    fullWidth
+                    value={editCardName}
+                    onChange={this.updatePrevCard}
+                />
+                <Button
+                    disabled={editCardDisabled}
+                    onClick={this.saveCardChanges}
+                    className={
+                        editCardDisabled
+                            ? "disabled"
+                            : "btnCreate"
+                    }
+                >
+                    Save Card Changes
+                </Button>
+            </DialogContent>
+        </Dialog>;
+
+
+        /*
+        <Modal
+            open={}
+            onClose={}
+        >
+            
+        </Modal>
+
+*/
         return (
             <Grid
                 className="boardStyle"
@@ -138,6 +218,7 @@ class Board extends Component {
                 direction="column"
                 alignItems="center">
                 <NavBar />
+                {MODAL}
                 <Grid
                     className="header"
                     container
@@ -161,15 +242,29 @@ class Board extends Component {
                                         </CardContent>
                                         <CardContent >
                                             {
-                                                list.cards.map((card, index) => {
+                                                list.cards.map((card, _cardIndex) => {
                                                     return (
                                                         <Card
                                                             className="cardItem"
-                                                            key={index}>
+                                                            key={_cardIndex}>
+                                                            {/*
+                                                                (editingCard && (editCardListIndex === index) && (cardIndex === _cardIndex))
+                                                                ?
+                                                                    <CardContent>
+                                                                        
+                                                                </CardContent>
+                                                                :*/
+                                                            }
                                                             <CardContent>
-                                                                <Typography color="textSecondary" >
-                                                                    {card.name}
-                                                                </Typography>
+                                                                <Grid
+                                                                    container
+                                                                    alignItems="center"
+                                                                    justify="space-between">
+                                                                    <Typography color="textSecondary" >
+                                                                        {card.name}
+                                                                    </Typography>
+                                                                    <Edit onClick={() => this.toggleEditCard(index, _cardIndex, true)} />
+                                                                </Grid>
                                                             </CardContent>
                                                         </Card>
                                                     );
@@ -210,7 +305,7 @@ class Board extends Component {
                                                     onClick={() => this.toggleAddCard(index)}
                                                     container
                                                     alignItems="center">
-                                                    <AddIcon fontSize="small" /> Add Card
+                                                        <Add fontSize="small" /> Add Card
                                                 </Grid>
                                             </CardContent>
                                         }
@@ -223,7 +318,7 @@ class Board extends Component {
                         <CardHeader
                             className="pointer newListHeader"
                             onClick={this.toggleNewList}
-                            avatar={<AddIcon />}
+                            avatar={<Add />}
                             title="Add New List"
                         />
                         <Collapse in={newList} timeout="auto" unmountOnExit>

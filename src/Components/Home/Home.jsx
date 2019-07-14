@@ -88,7 +88,7 @@ class Home extends Component {
                     item
                     xs={10}
                     justify="flex-start"
-                className="boardContainer">
+                    className="boardContainer">
                     {
                         boards.map((board, index) => {
                             return (
