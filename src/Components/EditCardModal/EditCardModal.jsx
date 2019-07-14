@@ -10,10 +10,6 @@ import {
 } from '@material-ui/core';
 
 class EditCardModal extends Component { 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const {
             editCardName,
